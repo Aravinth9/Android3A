@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 //import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -53,22 +54,42 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private static final String BASE_URL = "https://pokeapi.co/";
+    private static final String BASE_URL = "http://swapi.dev/api/";
 
     private void makeApiCall()
     {
-
+        int pageIndex = 1;
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        PokeApi pokeAPI = retrofit.create(PokeApi.class);
 
+        InterfaceRest SWService = retrofit.create(InterfaceRest.class);
+        //PokeApi pokeAPI = retrofit.create(PokeApi.class);
+        Call<SWPeople> peopleRequest = SWService.listPeople(pageIndex);
+        peopleRequest.enqueue(new Callback<SWPeople>() {
+            @Override
+            public void onResponse(Call<SWPeople> call, Response<SWPeople> response) {
+                if (!response.isSuccessful()){
+                    Log.d("ARAVINTH", "onResponse: ERREUR" + String.valueOf(response.code()));
+                }
+                else{
+                    SWPeople p = response.body();
+                    Log.d("ARAVINTH", "onResponse: ICI");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SWPeople> call, Throwable t) {
+                Log.d("SWAPI", "Request Fail. Error: " + t.getMessage());
+            }
+        });
+        /*
         Call<RestPokeResponse> call = pokeAPI.getPokemonResponse();
         call.enqueue(new Callback<RestPokeResponse>() {
             @Override
@@ -88,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                 showError();
             }
         });
+
+         */
     }
 
     private void showError()
