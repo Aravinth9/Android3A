@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        showList();
+
         makeApiCall();
     }
 
-    private void showList() {
+    private void showList(List<Personnage> SWPerso) {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         // use this setting to
         // improve performance if you know that changes
@@ -46,11 +46,9 @@ public class MainActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            input.add("Test" + i);
-        }// define an adapter
-        mAdapter = new ListeAdapter(input);
+
+
+        mAdapter = new ListeAdapter(SWPerso);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -79,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("ARAVINTH", "onResponse: ERREUR" + String.valueOf(response.code()));
                 }
                 else{
-                    SWPeople p = response.body();
+                    List<Personnage> p = response.body().results;
+                    showList(p);
                     Log.d("ARAVINTH", "onResponse: ICI");
                 }
             }
