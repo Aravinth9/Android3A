@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,16 +31,41 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListeAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private Gson gson;
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sharedPreferences = getSharedPreferences("application", Context.MODE_PRIVATE);
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
-        makeApiCall();
+        List<Personnage> personnageList = getDataFromCache();
+        if(personnageList != null) {
+            showList(personnageList);
+        }else {
+            makeApiCall();
+        }
+
+    }
+
+    private List<Personnage> getDataFromCache() {
+        String jsonPerso = sharedPreferences.getString("jsonPersoList", null);
+        if(jsonPerso == null){
+            return null;
+        } else {
+            Type ListType = new TypeToken<List<Personnage>>(){}.getType();
+            return gson.fromJson(jsonPerso, ListType);
+        }
+
     }
 
     private void showList(List<Personnage> SWPerso) {
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         // use this setting to
         // improve performance if you know that changes
@@ -57,10 +86,6 @@ public class MainActivity extends AppCompatActivity {
     private void makeApiCall()
     {
         int pageIndex = 1;
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -68,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         InterfaceRest SWService = retrofit.create(InterfaceRest.class);
-        //PokeApi pokeAPI = retrofit.create(PokeApi.class);
         Call<SWPeople> peopleRequest = SWService.listPeople(pageIndex);
         peopleRequest.enqueue(new Callback<SWPeople>() {
             @Override
@@ -77,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("ARAVINTH", "onResponse: ERREUR" + String.valueOf(response.code()));
                 }
                 else{
-                    List<Personnage> p = response.body().results;
-                    showList(p);
-                    Log.d("ARAVINTH", "onResponse: ICI");
+                    List<Personnage> personnageList = response.body().results;
+
+                    showList(personnageList);
+                    saveList(personnageList);
                 }
             }
 
@@ -88,28 +113,24 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("SWAPI", "Request Fail. Error: " + t.getMessage());
             }
         });
-        /*
-        Call<RestPokeResponse> call = pokeAPI.getPokemonResponse();
-        call.enqueue(new Callback<RestPokeResponse>() {
-            @Override
-            public void onResponse(Call<RestPokeResponse> call, Response<RestPokeResponse> response) {
-                if(response.isSuccessful() && response.body() != null)
-                {
-                    List<Pokemon> pokemonList = response.body().getResults();
-                    Toast.makeText(getApplicationContext(), "API Success", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    showError();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<RestPokeResponse> call, Throwable t) {
-                showError();
-            }
-        });
+    }
 
-         */
+    /*
+        Dans votre tutoriel vous récuperez puis formattez vos pokemons au format gson
+        Si j'ai bien compris, mon API SWAPI renvoi directement au format JSON
+        Je n'ai donc pas besoin de votre variable gson
+        J'ai également écrit une méthode toString pour obtenir les informations que je veux
+        Est-ce que tout est bon ou j'ai loupé quelque chose ?
+
+     */
+    private void saveList(List<Personnage> personnageList) {
+
+        String jsonString = gson.toJson(personnageList);
+        sharedPreferences.edit().putString("jsonPersoList", jsonString).apply();
+
+        Log.d("ARAVINTH", "Request Fail. Error: " + jsonString);
+
     }
 
     private void showError()
