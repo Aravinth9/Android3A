@@ -1,12 +1,15 @@
 package com.example.starwapi;
 
+import android.content.Context;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+
+import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -30,13 +34,30 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListeAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private Gson gson;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<Personnage> SWPerso;
-        showList();
+
+
+        sharedPreferences = getSharedPreferences("starwars", Context.MODE_PRIVATE);
+        gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        /*
+        List<Personnage> personnageList = getDataFromCache();
+        if(personnageList != null) {
+            showList(personnageList);
+        }else {
+            makeApiCall();
+        }
+
+
+         */
         makeApiCall();
 
     }
@@ -62,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     List<Personnage> personnageList = response.body().results;
 
-                    //showList(personnageList);
+                    saveList(personnageList);
+
+                    showList(personnageList);
                 }
             }
 
@@ -74,7 +97,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showList() {
+
+    private List<Personnage> getDataFromCache() {
+        String jsonPerso = sharedPreferences.getString("jsonPersoList", null);
+        if(jsonPerso == null){
+            return null;
+        } else {
+            Type ListType = new TypeToken<List<Personnage>>(){}.getType();
+            return gson.fromJson(jsonPerso, ListType);
+        }
+
+    }
+
+    private void saveList(List<Personnage> personnageList) {
+
+        String jsonString = gson.toJson(personnageList);
+        sharedPreferences.edit().putString("jsonPersoList", jsonString).apply();
+
+        Log.d("ARAVINTH", "Request Fail. Error: " + jsonString);
+
+    }
+
+    private void showList(List<Personnage> SWPerso) {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         // use this setting to
@@ -86,11 +130,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            input.add("Test" + i);
-        }
-        mAdapter = new ListeAdapter(input);
+
+        mAdapter = new ListeAdapter(SWPerso);
         recyclerView.setAdapter(mAdapter);
     }
     @Override

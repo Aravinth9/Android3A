@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> {
-    private List<String> values;
+    private List<Personnage> values;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -32,7 +32,7 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
         }
     }
 
-    public void add(int position, String item) {
+    public void add(int position, Personnage item) {
         values.add(position, item);
         notifyItemInserted(position);
     }
@@ -43,7 +43,7 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ListeAdapter(List<String> myDataset) {
+    public ListeAdapter(List<Personnage> myDataset) {
         values = myDataset;
     }
 
@@ -66,8 +66,8 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final String name = values.get(position);
-        holder.txtHeader.setText(name);
+        final Personnage perso = values.get(position);
+        holder.txtHeader.setText(perso.getName());
         holder.txtHeader.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +75,7 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
             }
         });
 
-        holder.txtFooter.setText("Footer: " + name);
+        holder.txtFooter.setText(perso.toString());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
