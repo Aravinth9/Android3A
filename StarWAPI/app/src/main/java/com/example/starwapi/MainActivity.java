@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 .setLenient()
                 .create();
 
-        /*
+
         List<Personnage> personnageList = getDataFromCache();
         if(personnageList != null) {
             showList(personnageList);
@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-         */
-        makeApiCall();
 
     }
 
