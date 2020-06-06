@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        sharedPreferences = getSharedPreferences("starwars", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Constants.KEY_NAME, Context.MODE_PRIVATE);
         gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static final String BASE_URL = "https://swapi.dev/api/";
+
     private void makeApiCall()
     {
         int pageIndex = 1;
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private List<Personnage> getDataFromCache() {
-        String jsonPerso = sharedPreferences.getString("jsonPersoList", null);
+        String jsonPerso = sharedPreferences.getString(Constants.KEY_LIST, null);
         if(jsonPerso == null){
             return null;
         } else {
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveList(List<Personnage> personnageList) {
 
         String jsonString = gson.toJson(personnageList);
-        sharedPreferences.edit().putString("jsonPersoList", jsonString).apply();
+        sharedPreferences.edit().putString(Constants.KEY_LIST, jsonString).apply();
 
         Log.d("ARAVINTH", "Request Fail. Error: " + jsonString);
 
@@ -119,10 +120,7 @@ public class MainActivity extends AppCompatActivity {
     private void showList(List<Personnage> SWPerso) {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        // use this setting to
-        // improve performance if you know that changes
-        // in content do not change the layout size
-        // of the RecyclerView
+
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
