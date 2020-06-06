@@ -1,9 +1,9 @@
-package com.example.starwapi;
+package com.example.starwapi.presentation.model;
 
 
 import java.util.List;
 
-class SWPeople {
+public class SWPeople {
 
     public int count;
     public String next;

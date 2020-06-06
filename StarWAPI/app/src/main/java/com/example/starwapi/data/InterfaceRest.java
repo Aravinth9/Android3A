@@ -1,8 +1,7 @@
-package com.example.starwapi;
+package com.example.starwapi.data;
 
 
-import android.provider.Contacts;
-
+import com.example.starwapi.presentation.model.SWPeople;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

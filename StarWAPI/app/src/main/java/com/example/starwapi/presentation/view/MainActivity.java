@@ -1,8 +1,12 @@
-package com.example.starwapi;
-
+package com.example.starwapi.presentation.view;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.example.starwapi.Constants;
+import com.example.starwapi.data.InterfaceRest;
+import com.example.starwapi.R;
+import com.example.starwapi.presentation.model.Personnage;
+import com.example.starwapi.presentation.model.SWPeople;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -14,13 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
+
 
     private RecyclerView recyclerView;
     private ListeAdapter mAdapter;
@@ -41,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         sharedPreferences = getSharedPreferences(Constants.KEY_NAME, Context.MODE_PRIVATE);
         gson = new GsonBuilder()
@@ -60,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private static final String BASE_URL = "https://swapi.dev/api/";
+
 
     private void makeApiCall()
     {
         int pageIndex = 1;
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

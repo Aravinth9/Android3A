@@ -1,4 +1,4 @@
-package com.example.starwapi;
+package com.example.starwapi.presentation.model;
 
 import java.util.List;
 
