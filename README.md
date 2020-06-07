@@ -9,13 +9,13 @@ Ce projet utilise une API Rest pour récupérer des données et les afficher.
 # Prérequis
 - Utiliser Android Studio
 - Récuperer le projet 
-> https://github.com/Aravinth9/Android3A.git
+[Sur ce lien](https://github.com/Aravinth9/Android3A.git)
+> 
 - Les fichiers se trouvent dans le dossier StarWAPI (je n'arrive pas à supprimer les fichiers inutiles)
 
 
-> ideally one sentence
+# Consignes respectées :
 
-> include terms/tags that can be searched
 
 **Badges will go here**
 
