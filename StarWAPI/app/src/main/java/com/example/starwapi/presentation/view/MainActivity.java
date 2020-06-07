@@ -3,8 +3,10 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.example.starwapi.Constants;
+import com.example.starwapi.Singletons;
 import com.example.starwapi.data.InterfaceRest;
 import com.example.starwapi.R;
+import com.example.starwapi.presentation.controller.MainController;
 import com.example.starwapi.presentation.model.Personnage;
 import com.example.starwapi.presentation.model.SWPeople;
 import com.google.gson.Gson;
@@ -32,93 +34,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private MainController controller;
     private RecyclerView recyclerView;
     private ListeAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private Gson gson;
-    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = getSharedPreferences(Constants.KEY_NAME, Context.MODE_PRIVATE);
-        gson = new GsonBuilder()
-                .setLenient()
-                .create();
+        controller = new MainController(
+                this
+                ,getSharedPreferences(Constants.KEY_NAME, Context.MODE_PRIVATE),
+                Singletons.getGson()
+        );
+        controller.onStart();
 
-
-        List<Personnage> personnageList = getDataFromCache();
-        if(personnageList != null) {
-            showList(personnageList);
-        }else {
-            makeApiCall();
-        }
 
 
 
     }
 
-
-
-    private void makeApiCall()
-    {
-        int pageIndex = 1;
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-
-        InterfaceRest SWService = retrofit.create(InterfaceRest.class);
-        Call<SWPeople> peopleRequest = SWService.listPeople(pageIndex);
-        peopleRequest.enqueue(new Callback<SWPeople>() {
-            @Override
-            public void onResponse(Call<SWPeople> call, Response<SWPeople> response) {
-                if (!response.isSuccessful()){
-                    Log.d("ARAVINTH", "onResponse: ERREUR" + String.valueOf(response.code()));
-                }
-                else{
-                    List<Personnage> personnageList = response.body().results;
-
-                    saveList(personnageList);
-
-                    showList(personnageList);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SWPeople> call, Throwable t) {
-                Log.d("ARAVINTH", "Request Fail. Error: " + t.getMessage());
-            }
-        });
-
-    }
-
-
-    private List<Personnage> getDataFromCache() {
-        String jsonPerso = sharedPreferences.getString(Constants.KEY_LIST, null);
-        if(jsonPerso == null){
-            return null;
-        } else {
-            Type ListType = new TypeToken<List<Personnage>>(){}.getType();
-            return gson.fromJson(jsonPerso, ListType);
-        }
-
-    }
-
-    private void saveList(List<Personnage> personnageList) {
-
-        String jsonString = gson.toJson(personnageList);
-        sharedPreferences.edit().putString(Constants.KEY_LIST, jsonString).apply();
-
-        Log.d("ARAVINTH", "Request Fail. Error: " + jsonString);
-
-    }
-
-    private void showList(List<Personnage> SWPerso) {
+    public void showList(List<Personnage> SWPerso) {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -131,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new ListeAdapter(SWPerso);
         recyclerView.setAdapter(mAdapter);
     }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
