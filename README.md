@@ -1,5 +1,6 @@
 # Android3A
-Projet Android de 3ème année d'ingénieur
+Voici mon projet Android de 3ème année d'ingénieur
+Professeur : Vincent Etienne
 
 # Repository Title Goes Here
 
