@@ -10,7 +10,7 @@ Ce projet utilise une API Rest pour récupérer des données et les afficher.
 - Utiliser Android Studio
 - Récuperer le projet [sur ce lien](https://github.com/Aravinth9/Android3A.git)
 
->  Les fichiers se trouvent dans le dossier StarWAPI ([ce dossier là] (https://github.com/Aravinth9/Android3A/tree/master/StarWAPI)(je n'arrive pas à supprimer les fichiers inutiles)
+>  Les fichiers se trouvent dans le dossier StarWAPI ([ce dossier là](https://github.com/Aravinth9/Android3A/tree/master/StarWAPI) (je n'arrive pas à supprimer les fichiers inutiles)
 
 
 # Consignes respectées :
