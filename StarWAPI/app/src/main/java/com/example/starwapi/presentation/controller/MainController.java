@@ -43,8 +43,6 @@ public class MainController {
 
     public void onStart(){
 
-
-
         List<Personnage> personnageList = getDataFromCache();
         if( personnageList != null) {
             view.showList(personnageList);

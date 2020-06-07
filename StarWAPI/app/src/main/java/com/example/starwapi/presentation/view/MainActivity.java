@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
 import java.util.List;
 
 
@@ -25,22 +28,39 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListeAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    Button liste;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // J'ai essayé d'ajouter un logo
-        //setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.accueil);
 
         controller = new MainController(
                 this
                 ,Singletons.getsharedPreferencesInstance(getApplicationContext()),
                 Singletons.getGson()
         );
-        controller.onStart();
 
+        start();
+
+    }
+
+    public void start(){
+
+        liste = findViewById(R.id.button);
+        liste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                        Je sais c'est mal écrit mais j'y ai pensé au dernier moment. Désolé !
+
+                */
+                setContentView(R.layout.activity_main);
+                controller.onStart();
+            }
+        });
 
     }
 
@@ -48,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
