@@ -1,21 +1,25 @@
-# Android3A
+# Star WAPI
 Voici mon projet Android de 3ème année d'ingénieur
+
 Professeur : Vincent Etienne
 
-# Repository Title Goes Here
+# Présentation
+Ce projet utilise une API Rest pour récupérer des données et les afficher.
 
-> Subtitle or Short Description Goes Here
+# Prérequis
+- Utiliser Android Studio
+- Récuperer le projet [sur ce lien](https://github.com/Aravinth9/Android3A.git)
 
-> ideally one sentence
+>  Les fichiers se trouvent dans le dossier StarWAPI ([ce dossier là] (https://github.com/Aravinth9/Android3A/tree/master/StarWAPI)(je n'arrive pas à supprimer les fichiers inutiles)
 
-> include terms/tags that can be searched
 
-**Badges will go here**
-
-- build status
-- issues (waffle.io maybe)
-- devDependencies
-- npm package
-- coverage
-- slack
-- downloads
+# Consignes respectées :
+ - Architecture MVC
+ - Appel REST
+ - Affichage d'une liste dans un RecyclerView
+ - Activité pour le détail d'un élément
+ - Stockage de données en cache
+ 
+# Fonctionnalités :
+Ecran d'accueil
+![alt texte] (https://ibb.co/YBT28PB)
