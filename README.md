@@ -22,5 +22,11 @@ Ce projet utilise une API Rest pour récupérer des données et les afficher.
  
 # Fonctionnalités :
 Ecran d'accueil
-![alt texte](StarWAPI/app/src/main/res/drawable/Accueil.png)
-(https://ibb.co/YBT28PB)
+![Accueil] StarWAPI/app/src/main/res/drawable/accueil.png)
+
+Recycler View 
+![Liste] StarWAPI/app/src/main/res/drawable/recyclerview.png
+
+Ecran détails
+![écran détails] StarWAPI/app/src/main/res/drawable/details.png
+
