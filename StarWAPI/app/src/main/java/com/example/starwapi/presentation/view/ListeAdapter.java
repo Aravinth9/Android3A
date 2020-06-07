@@ -16,10 +16,21 @@ import com.example.starwapi.presentation.model.Personnage;
 
 public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> {
     private List<Personnage> values;
+    private OnItemClickListener listener;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
+    public ListeAdapter(List<Personnage> myDataset, OnItemClickListener listener) {
+        this.values = myDataset;
+        this.listener = listener;
+    }
+    public void setListener(OnItemClickListener listener){
+        this.listener =listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Personnage perso);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView txtHeader;
@@ -44,10 +55,7 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
         notifyItemRemoved(position);
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public ListeAdapter(List<Personnage> myDataset) {
-        values = myDataset;
-    }
+
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -70,6 +78,7 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
         // - replace the contents of the view with that element
         final Personnage perso = values.get(position);
         holder.txtHeader.setText(perso.getName());
+        /*
         holder.txtHeader.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,10 +86,17 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
             }
         });
 
+         */
+
         holder.txtFooter.setText(perso.toString());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v){
+                listener.onItemClick(perso);
+            }
+        });
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return values.size();

@@ -104,7 +104,8 @@ public class MainController {
 
     }
 
-    public void onItemClick(){
+    public void onItemClick(Personnage perso){
+        view.navigateToDetails(perso);
     }
 
     public void onButtonClick() {

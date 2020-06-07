@@ -1,20 +1,12 @@
 package com.example.starwapi.presentation.view;
-import android.content.Context;
 import android.os.Bundle;
 
-import com.example.starwapi.Constants;
 import com.example.starwapi.Singletons;
-import com.example.starwapi.data.InterfaceRest;
 import com.example.starwapi.R;
 import com.example.starwapi.presentation.controller.MainController;
 import com.example.starwapi.presentation.model.Personnage;
-import com.example.starwapi.presentation.model.SWPeople;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 
-import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,13 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.lang.reflect.Type;
 import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,12 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         controller = new MainController(
                 this
-                ,getSharedPreferences(Constants.KEY_NAME, Context.MODE_PRIVATE),
+                ,Singletons.getsharedPreferencesInstance(getApplicationContext()),
                 Singletons.getGson()
         );
         controller.onStart();
-
-
 
 
     }
@@ -67,7 +51,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        mAdapter = new ListeAdapter(SWPerso);
+        mAdapter = new ListeAdapter(SWPerso, new ListeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Personnage perso) {
+                controller.onItemClick(perso);
+            }
+        });
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -93,5 +82,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void navigateToDetails(Personnage perso) {
+        Log.d("ARAV","Click sur "+ perso.getName());
     }
 }
