@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import java.util.List;
 
 
@@ -30,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // J'ai essayé d'ajouter un logo
+        //setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent (MainActivity.this, DetailActivity.class);
 
         String test = Singletons.getGson().toJson(perso);
-        Log.d("ARAV navigate to Deatils", test);
+        Log.d("ARAV navigate t", test);
         intent.putExtra(Constants.KEY_DETAIL,Singletons.getGson().toJson(perso));
         MainActivity.this.startActivity(intent);
 

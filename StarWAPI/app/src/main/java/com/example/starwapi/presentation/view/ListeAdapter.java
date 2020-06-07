@@ -78,17 +78,7 @@ public class ListeAdapter extends RecyclerView.Adapter<ListeAdapter.ViewHolder> 
         // - replace the contents of the view with that element
         final Personnage perso = values.get(position);
         holder.txtHeader.setText(perso.getName());
-        /*
-        holder.txtHeader.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                remove(position);
-            }
-        });
-
-         */
-
-        holder.txtFooter.setText(perso.toString());
+        holder.txtFooter.setText(perso.resume());
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){

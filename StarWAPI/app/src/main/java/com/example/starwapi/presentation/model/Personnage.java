@@ -16,13 +16,19 @@ public class Personnage {
     @Override
     public String toString()
     {
-        return name + "\n"
-                + "Birth Year: " + birth_year +"\n"
-                + "Gender: " + gender + "\n"
-                + "Hair color: " + hair_color +"\n"
-                + "Height: " + height + "\n"
-                + "Mass: " + mass + "\n"
-                + "Skin color: " + skin_color + " \n";
+        return "Genre: " + gender + "\n"
+                + "Taille: " + height  + " cm" +"\n"
+                + "Poids: " + mass +" kg"+ "\n"
+                + "Année de naissance: " + birth_year +"\n"
+                + "Couleur de cheveux: " + hair_color +"\n"
+                + "Couleur de peau: " + skin_color + " \n"
+                ;
+    }
+
+    public String resume(){
+        return "Genre: " + gender + "\n"
+                + "Taille: " + height + " cm" + "\n"
+                + "Poids: " + mass +" kg"+ "\n";
     }
 
     public String getName() {

@@ -15,16 +15,17 @@ import com.example.starwapi.presentation.model.Personnage;
 public class DetailActivity extends AppCompatActivity {
 
     private TextView txtDetail;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
+
         txtDetail = findViewById(R.id.detail_txt);
+        title = findViewById(R.id.titre);
 
         Intent intent = getIntent();
-        String test = intent.getStringExtra(Constants.KEY_DETAIL);
-        Log.d("ARAV onCreate De", test);
         String persoJson = intent.getStringExtra(Constants.KEY_DETAIL);
         Personnage perso = Singletons.getGson().fromJson(persoJson,Personnage.class);
         showDetails(perso);
@@ -32,6 +33,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void showDetails(Personnage perso) {
-        txtDetail.setText(perso.getName());
+
+        txtDetail.setText(perso.toString());
+        title.setText(perso.getName());
     }
 }
