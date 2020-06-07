@@ -1,6 +1,8 @@
 package com.example.starwapi.presentation.view;
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.starwapi.Constants;
 import com.example.starwapi.Singletons;
 import com.example.starwapi.R;
 import com.example.starwapi.presentation.controller.MainController;
@@ -44,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     public void showList(List<Personnage> SWPerso) {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
@@ -58,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(mAdapter);
+    }
+
+    public void navigateToDetails(Personnage perso) {
+        Intent intent = new Intent (MainActivity.this, DetailActivity.class);
+
+        String test = Singletons.getGson().toJson(perso);
+        Log.d("ARAV navigate to Deatils", test);
+        intent.putExtra(Constants.KEY_DETAIL,Singletons.getGson().toJson(perso));
+        MainActivity.this.startActivity(intent);
+
     }
 
 
@@ -84,7 +95,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void navigateToDetails(Personnage perso) {
-        Log.d("ARAV","Click sur "+ perso.getName());
-    }
+
 }
