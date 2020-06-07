@@ -22,4 +22,5 @@ Ce projet utilise une API Rest pour récupérer des données et les afficher.
  
 # Fonctionnalités :
 Ecran d'accueil
-![alt texte] (https://ibb.co/YBT28PB)
+![alt texte](img_readme/Screenshot_1591554045.png)
+(https://ibb.co/YBT28PB)
