@@ -1,10 +1,17 @@
-# Android3A
+# Star WAPI
 Voici mon projet Android de 3ème année d'ingénieur
+
 Professeur : Vincent Etienne
 
-# Repository Title Goes Here
+# Présentation
+Ce projet utilise une API Rest pour récupérer des données et les afficher.
 
-> Subtitle or Short Description Goes Here
+# Prérequis
+- Utiliser Android Studio
+- Récuperer le projet 
+> https://github.com/Aravinth9/Android3A.git
+- Les fichiers se trouvent dans le dossier StarWAPI (je n'arrive pas à supprimer les fichiers inutiles)
+
 
 > ideally one sentence
 
